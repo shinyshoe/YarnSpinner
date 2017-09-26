@@ -247,6 +247,7 @@ namespace Yarn {
             this.continuity = continuity;
             loader = new Loader (this);
             library = new Library ();
+			_vmStack = new Stack<VirtualMachine>();
 
             library.ImportLibrary (new StandardLibrary ());
 
@@ -370,7 +371,18 @@ namespace Yarn {
 
         }
 
-        private VirtualMachine vm;
+		private Stack<VirtualMachine> _vmStack;
+		private VirtualMachine vm
+		{
+			get
+			{
+				if (_vmStack.Count > 0)
+				{
+					return _vmStack.Peek();
+				}
+				return null;
+			}
+		}
 
         // Executes a node.
         /** Use this in a for-each construct; each time you iterate over it,
@@ -391,7 +403,7 @@ namespace Yarn {
                 yield break;
             }
 
-            vm = new VirtualMachine (this, program);
+			_vmStack.Push(new VirtualMachine (this, program));
 
             RunnerResult latestResult;
 
@@ -435,6 +447,9 @@ namespace Yarn {
                     yield return latestResult;
 
             } while (vm.executionState != VirtualMachine.ExecutionState.Stopped);
+
+			//Pop off this VM from the stack
+			_vmStack.Pop();
 
         }
 
