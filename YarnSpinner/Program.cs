@@ -226,6 +226,9 @@ namespace Yarn
 				{
 					//bjrafeld - Ignore duplicate node names so that we can reload the same file at runtime.
 					//throw new InvalidOperationException(string.Format("This program already contains a node named {0}", otherNodeName.Key));
+
+
+					continue;	//ignore the old otherProgram nodes of the same name.
 				}
 
 				nodes[otherNodeName.Key] = otherNodeName.Value;
