@@ -237,9 +237,10 @@ namespace Yarn
 			foreach (var otherString in otherProgram.strings)
 			{
 
-				if (nodes.ContainsKey(otherString.Key))
+				if (strings.ContainsKey(otherString.Key))
 				{
-					throw new InvalidOperationException(string.Format("This program already contains a string with key {0}", otherString.Key));
+					//throw new InvalidOperationException(string.Format("This program already contains a string with key {0}", otherString.Key));
+					continue;
 				}
 
 				strings[otherString.Key] = otherString.Value;
